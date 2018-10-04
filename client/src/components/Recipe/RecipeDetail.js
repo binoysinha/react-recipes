@@ -2,6 +2,7 @@ import React from 'react';
 import withRouter from 'react-router-dom/withRouter';
 import { Query } from 'react-apollo';
 import { GET_RECIPE } from '../../queries';
+import LikeRecipe from './LikeRecipe';
 
 const RecipeDetail = ({ match }) => {
 	const { _id } = match.params;
@@ -10,7 +11,6 @@ const RecipeDetail = ({ match }) => {
 			{({ data, loading, error }) => {
 				if (loading) return <div>Loading</div>;
 				if (error) return <div>Error</div>;
-				console.log(data);
 				return (
 					<div className="App">
 						<h2>{data.getRecipe.name}</h2>
@@ -19,6 +19,7 @@ const RecipeDetail = ({ match }) => {
 						<p>Instruction: {data.getRecipe.instructions}</p>
 						<p>Likes: {data.getRecipe.likes}</p>
 						<p>Created By: {data.getRecipe.username}</p>
+						<LikeRecipe _id={_id} />
 					</div>
 				);
 			}}
