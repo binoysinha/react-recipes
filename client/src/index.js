@@ -13,8 +13,13 @@ import AddRecipe from './components/Recipe/AddRecipe';
 import Profile from './components/Profile/Profile';
 import RecipeDetail from './components/Recipe/RecipeDetail';
 
+const API_URL =
+	process.env.NODE_ENV === 'development'
+		? 'http://localhost:4000/graphql'
+		: 'https://react-recipev1.herokuapp.com/graphql';
+
 const client = new ApolloClient({
-	uri: 'http://localhost:4000/graphql',
+	uri: API_URL,
 	fetchOptions: {
 		credentials: 'include'
 	},
