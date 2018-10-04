@@ -7,7 +7,7 @@
     "node": "v8.11.2"
   },
   "scripts": {
-    "start": "NODE_ENV=production PORT=80 node server.js",
+    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
