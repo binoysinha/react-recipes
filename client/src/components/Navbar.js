@@ -24,12 +24,10 @@ const NavbarAuth = ({ session }) => (
 				<NavLink to="/profile">Profile</NavLink>
 			</li>
 			<li>
+				<span className="user-name">Welcome, {session.getCurrentUser.username}</span>
 				<Signout />
 			</li>
 		</ul>
-		<h4>
-			Welcome, <strong>{session.getCurrentUser.username}</strong>
-		</h4>
 	</Fragment>
 );
 

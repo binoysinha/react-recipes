@@ -50,9 +50,10 @@ exports.resolvers = {
         }
     },
     Mutation: {
-        addRecipe: async (root, { name, category, description, instructions, username}, { Recipe}) => {
+        addRecipe: async (root, { name, imageUrl, category, description, instructions, username}, { Recipe}) => {
             const newRecipe = await new Recipe({
                 name,
+                imageUrl,
                 description,
                 category,
                 instructions,
@@ -78,6 +79,9 @@ exports.resolvers = {
         deleteUserRecipe: async (root, { _id }, { Recipe }) => {
             return await Recipe.findOneAndRemove({ _id });
 
+        },
+        updateUserRecipe: async (root, { _id, name, imageUrl, category, description}, { Recipe}) =>{
+            return await Recipe.findOneAndUpdate({ _id }, { $set: { name, imageUrl, description, category } },{ new: true })
         },
         signinUser: async (root, { username, password }, { User }) => {
             const user = await User.findOne({ username });

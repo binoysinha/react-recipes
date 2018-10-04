@@ -1,8 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import posed from 'react-pose';
+
 import { Link } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { DELETE_USER_RECIPE, GET_USER_RECIPES, GET_ALL_RECIPES, GET_CURRENT_USER } from '../../queries';
+
+const RecipeItem = posed.li({
+	shown: { opacity: 1 },
+	hidden: { opacity: 0 }
+});
 
 const handleDelete = deleteUserRecipe => {
 	const confirmDelete = window.confirm('Are you sure you want to delete this recipe?');
@@ -11,21 +18,23 @@ const handleDelete = deleteUserRecipe => {
 	}
 };
 
-const RecipeItem = ({ _id, name, category, likes, deleteItem, username }) => (
-	<li>
-		<Link to={`/recipes/${_id}`}>
-			<h4>{name}</h4>
-		</Link>
-		{category !== null ? (
-			<p>
-				<strong>{category}</strong>
-			</p>
-		) : null}
-		{likes !== null ? (
-			<p>
-				<strong>Likes: {likes}</strong>
-			</p>
-		) : null}
+export default ({ _id, name, category, likes, deleteItem, description, username, imageUrl, editRecipe }) => (
+	<RecipeItem style={{ backgroundImage: `url(${imageUrl})` }} className="card img-c">
+		{category !== undefined ? <span className={category}>{category}</span> : null}
+
+		<div className="card-text">
+			<Link to={`/recipes/${_id}`}>
+				<h4>
+					{name}{' '}
+					{likes !== undefined ? (
+						<span role="img" aria-labelledby="likes" className="like-c">
+							{likes} ❤️
+						</span>
+					) : null}
+				</h4>
+			</Link>
+		</div>
+
 		{deleteItem ? (
 			<Mutation
 				mutation={DELETE_USER_RECIPE}
@@ -47,21 +56,28 @@ const RecipeItem = ({ _id, name, category, likes, deleteItem, username }) => (
 				}}
 			>
 				{(deleteUserRecipe, attrs = {}) => (
-					<p className="delete-button" onClick={() => handleDelete(deleteUserRecipe)}>
-						{attrs.loading ? 'deleting...' : 'X'}
-					</p>
+					<div className="btn-group">
+						<button
+							className="btn button-primary"
+							onClick={editRecipe.bind(null, { _id, name, category, description, imageUrl })}
+						>
+							Edit
+						</button>
+						<button className="btn delete-button" onClick={() => handleDelete(deleteUserRecipe)}>
+							{attrs.loading ? 'deleting...' : 'Delete'}
+						</button>
+					</div>
 				)}
 			</Mutation>
 		) : null}
-	</li>
+	</RecipeItem>
 );
 
-RecipeItem.propTypes = {
-	_id: PropTypes.string,
-	name: PropTypes.string,
-	likes: PropTypes.number,
-	deleteItem: PropTypes.bool,
-	category: PropTypes.string,
-	username: PropTypes.string
-};
-export default RecipeItem;
+// RecipeItem.propTypes = {
+// 	_id: PropTypes.string,
+// 	name: PropTypes.string,
+// 	likes: PropTypes.number,
+// 	deleteItem: PropTypes.bool,
+// 	category: PropTypes.string,
+// 	username: PropTypes.string
+// };

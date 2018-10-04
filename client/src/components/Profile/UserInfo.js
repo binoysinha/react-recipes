@@ -13,24 +13,23 @@ const UserInfo = ({ session }) => {
 	const doj = formatDate(joinDate);
 	return (
 		<div>
-			<h3>User Info</h3>
-			<p>
-				Username:
-				{username}
-			</p>
-			<p>
-				Email:
-				{email}
-			</p>
-			<p>
-				Join Date:
-				{doj}
-			</p>
-			<ul>
-				<h3>
+			<div className="user-info">
+				<p>
+					Username:
 					{username}
-					's Favorites
-				</h3>
+				</p>
+				<p>
+					Email:
+					{email}
+				</p>
+				<p>
+					Date of Joining:
+					{doj}
+				</p>
+			</div>
+			<ul>
+				<h3>My's Favorites</h3>
+				{!favorites.length ? <p>You don't have any favorite recipe.</p> : null}
 				{favorites.map(recipe => (
 					<li key={recipe._id}>
 						<Link to={`/recipes/${recipe._id}`}>
