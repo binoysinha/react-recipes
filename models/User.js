@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
+const ObjectId = require('mongoose').Types.ObjectId;
 const bcrypt = require('bcrypt');
+
+ObjectId.prototype.valueOf = function () {
+	return this.toString();
+};
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
